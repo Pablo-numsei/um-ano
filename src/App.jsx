@@ -49,7 +49,7 @@ export default function App() {
 
         <div className="stage">
           <div className="paper-shadow" />
-          <article className={`polaroid ${direction}`} key={index}>
+          <article className={`polaroid ${direction}${current.wideFrame ? " portrait-photo" : ""}`} key={index}>
             <div className={`photo-frame${current.rotated ? " rotated" : ""}${current.reverseRotation ? " reverse-rotation" : ""}${current.wideFrame ? " wide-frame" : ""}`}>
               <img src={current.src} alt={`Fotografia ${index + 1}`} />
             </div>
