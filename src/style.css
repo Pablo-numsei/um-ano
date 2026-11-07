@@ -124,6 +124,10 @@ h1 em { color: #b17f79; font-weight: 500; }
   pointer-events: none;
 }
 
+.polaroid.portrait-photo {
+  width: min(100%, 280px);
+}
+
 .polaroid {
   position: relative;
   z-index: 1;
