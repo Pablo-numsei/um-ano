@@ -340,3 +340,14 @@ footer {
 .photo-frame.reverse-rotation img {
   transform: translate(-50%, -50%) rotate(90deg);
 }
+
+/* Horizontal frame with the full portrait photo kept upright. */
+.photo-frame.wide-frame {
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.photo-frame.wide-frame img {
+  object-fit: contain;
+  object-position: center;
+}
