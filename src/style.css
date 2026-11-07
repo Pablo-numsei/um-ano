@@ -336,3 +336,7 @@ footer {
     transition-duration: .01ms !important;
   }
 }
+
+.photo-frame.reverse-rotation img {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
