@@ -172,8 +172,9 @@ h1 em { color: #b17f79; font-weight: 500; }
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 56.25%;
-  height: 177.7778%;
+  /* Swap the image dimensions before rotation so its full bounds fit the frame. */
+  width: 177.7778%;
+  height: 56.25%;
   max-width: none;
   object-fit: contain;
   object-position: center;
