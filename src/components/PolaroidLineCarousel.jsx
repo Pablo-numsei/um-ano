@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 export default function PolaroidLineCarousel({ slides }) {
   const [position, setPosition] = useState(0)
+  const [dragging, setDragging] = useState(false)
   const drag = useRef(null)
   const active = Math.round(position)
   const spacing = 205
@@ -14,6 +15,7 @@ export default function PolaroidLineCarousel({ slides }) {
   function onPointerDown(event) {
     if (event.target.closest('button')) return
     drag.current = { x: event.clientX, start: position, moved: false }
+    setDragging(true)
     event.currentTarget.setPointerCapture(event.pointerId)
   }
 
@@ -31,13 +33,14 @@ export default function PolaroidLineCarousel({ slides }) {
     if (!drag.current) return
     const moved = drag.current.moved
     drag.current = null
+    setDragging(false)
     if (moved) setPosition((value) => Math.max(0, Math.min(slides.length - 1, Math.round(value))))
   }
 
   return (
     <section className="line-carousel" aria-label="Linha do tempo de fotografias">
       <div
-        className="line-stage"
+        className={`line-stage ${dragging ? "is-dragging" : ""}`}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
