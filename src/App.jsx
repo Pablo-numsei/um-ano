@@ -5,7 +5,7 @@ const photos = [
   { src: '/photos/foto-01.jpg', caption: 'Até nos dias mais comuns, você consegue ser a parte mais bonita deles.' },
   { src: '/photos/foto-02.jpg', caption: 'Tem algo no seu jeito que sempre faz meus olhos quererem ficar mais um pouquinho.' },
   { src: '/photos/foto-03.jpg', caption: 'Eu gosto de descobrir cada detalhe seu, até aqueles que você nem percebe.' },
-  { src: '/photos/foto-04.jpg', rotated: true, caption: 'Seu sorriso tem esse costume bonito de deixar tudo um pouco melhor.' },
+  { src: '/photos/foto-04.jpg', rotated: true, reverseRotation: true, caption: 'Seu sorriso tem esse costume bonito de deixar tudo um pouco melhor.' },
   { src: '/photos/foto-05.jpg', caption: 'Se eu pudesse guardar um pedacinho desse instante, escolheria guardar você nele.' },
   { src: '/photos/foto-06.jpg', rotated: true, caption: 'Mesmo quando o dia é simples, você continua sendo uma lembrança especial.' },
   { src: '/photos/foto-07.jpg', caption: 'Eu poderia olhar essa foto muitas vezes e ainda encontrar algo novo para gostar.' },
@@ -50,7 +50,7 @@ export default function App() {
         <div className="stage">
           <div className="paper-shadow" />
           <article className={`polaroid ${direction}`} key={index}>
-            <div className={`photo-frame${current.rotated ? " rotated" : ""}`}>
+            <div className={`photo-frame${current.rotated ? " rotated" : ""}${current.reverseRotation ? " reverse-rotation" : ""}`}>
               <img src={current.src} alt={`Fotografia ${index + 1}`} />
             </div>
             <div className="polaroid-caption">
