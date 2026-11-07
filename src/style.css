@@ -161,6 +161,25 @@ h1 em { color: #b17f79; font-weight: 500; }
   place-items: center;
 }
 
+/* These source photos were saved sideways. Rotate them without cropping. */
+.photo-frame.rotated {
+  height: auto;
+  aspect-ratio: 16 / 9;
+  position: relative;
+}
+
+.photo-frame.rotated img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 56.25%;
+  height: 177.7778%;
+  max-width: none;
+  object-fit: contain;
+  object-position: center;
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
 /* Contain preserves the complete original photo, including faces and edges. */
 .photo-frame img {
   display: block;
