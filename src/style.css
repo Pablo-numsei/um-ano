@@ -125,7 +125,7 @@ h1 em { color: #b17f79; font-weight: 500; }
 }
 
 .polaroid.portrait-photo {
-  width: min(100%, 280px);
+  width: min(100%, 260px);
 }
 
 .polaroid {
