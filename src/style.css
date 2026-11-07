@@ -372,6 +372,7 @@ footer {
   user-select: none;
 }
 .line-stage:active { cursor: grabbing; }
+.line-stage.is-dragging .hanging-polaroid { transition: none; }
 .line-stage::before {
   content: "";
   position: absolute;
