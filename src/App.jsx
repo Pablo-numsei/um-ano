@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { ArrowLeft, ArrowRight, Heart } from 'lucide-react'
+import { Heart } from 'lucide-react'
+import PolaroidLineCarousel from './components/PolaroidLineCarousel.jsx'
 
 const photos = [
   { src: '/photos/foto-01.jpg', wideFrame: true, caption: 'Até nos dias mais comuns, você consegue ser a parte mais bonita deles.' },
@@ -17,16 +17,6 @@ const photos = [
 ]
 
 export default function App() {
-  const [index, setIndex] = useState(0)
-  const [direction, setDirection] = useState('next')
-  const current = photos[index]
-
-  function goTo(nextIndex) {
-    if (nextIndex < 0 || nextIndex >= photos.length || nextIndex === index) return
-    setDirection(nextIndex > index ? 'next' : 'previous')
-    setIndex(nextIndex)
-  }
-
   return (
     <main className="page">
       <header className="topbar">
@@ -44,44 +34,9 @@ export default function App() {
       <section className="album">
         <div className="album-heading">
           <span className="eyebrow">NOSSA LINHA DO TEMPO</span>
-          <span className="counter">{String(index + 1).padStart(2, '0')} <i>/</i> 12</span>
+          <span className="counter">12 <i>/</i> 12</span>
         </div>
-
-        <div className="stage">
-          <div className="paper-shadow" />
-          <article className={`polaroid ${direction}${current.wideFrame ? " portrait-photo" : ""}`} key={index}>
-            <div className={`photo-frame${current.rotated ? " rotated" : ""}${current.reverseRotation ? " reverse-rotation" : ""}${current.wideFrame ? " wide-frame" : ""}`}>
-              <img src={current.src} alt={`Fotografia ${index + 1}`} />
-            </div>
-            <div className="polaroid-caption">
-              <span className="month-label">RECORDAÇÃO {String(index + 1).padStart(2, '0')}</span>
-              <div className="caption-script">{current.caption}</div>
-              <span className="date-label">um pedacinho da nossa história</span>
-            </div>
-            <span className="tape" />
-          </article>
-          <span className="side-note">feito de momentos</span>
-        </div>
-
-        <div className="timeline-dots" aria-label="Selecionar fotografia">
-          {photos.map((photo, i) => (
-            <button key={photo.src} className={`dot ${i === index ? 'active' : ''}`}
-              onClick={() => goTo(i)} aria-label={`Abrir fotografia ${i + 1}`}
-              aria-current={i === index ? 'step' : undefined} title={`Fotografia ${i + 1}`}>
-              <span />
-            </button>
-          ))}
-        </div>
-
-        <div className="navigation">
-          <button className="nav-button" onClick={() => goTo(index - 1)} disabled={index === 0}>
-            <ArrowLeft size={17} /> Anterior
-          </button>
-          <span>{index + 1} de 12 lembranças</span>
-          <button className="nav-button" onClick={() => goTo(index + 1)} disabled={index === photos.length - 1}>
-            Próxima <ArrowRight size={17} />
-          </button>
-        </div>
+        <PolaroidLineCarousel slides={photos} />
       </section>
 
       <footer>
