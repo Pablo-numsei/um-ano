@@ -341,10 +341,10 @@ footer {
   transform: translate(-50%, -50%) rotate(90deg);
 }
 
-/* Horizontal frame with the full portrait photo kept upright. */
+/* Portrait photos use a portrait frame, preserving the full image and face. */
 .photo-frame.wide-frame {
   height: auto;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 3 / 4;
 }
 
 .photo-frame.wide-frame img {
