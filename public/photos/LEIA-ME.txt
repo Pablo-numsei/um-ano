@@ -1,0 +1,1 @@
+As fotografias definitivas podem ser colocadas nesta pasta quando formos preparar a versão compartilhada. O protótipo atual permite selecionar imagens no navegador para testar a ordenação e a apresentação.
