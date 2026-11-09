@@ -804,7 +804,7 @@ body { color: #f1f1ef; }
 .reference-stage {
   position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden;
   scroll-snap-type: y mandatory; scroll-behavior: smooth; scrollbar-width: none;
-  overscroll-behavior-y: contain;
+  scroll-padding-block: 26vh; padding-block: 26vh; overscroll-behavior-y: contain;
 }
 .reference-stage::-webkit-scrollbar { display: none; }
 .reference-slide {
@@ -813,7 +813,7 @@ body { color: #f1f1ef; }
   padding: 7vh 7vw 7vh 38vw; position: relative;
 }
 .reference-photo-button, .reference-focus-photo {
-  display: block; position: relative; width: min(56vw, 690px); height: min(78vh, 760px);
+  display: block; position: relative; width: min(56vw, 690px); height: min(43vh, 430px);
   border: 0; padding: 0; background: transparent; cursor: pointer;
   transform-origin: center; transition: transform .55s cubic-bezier(.2,.75,.25,1), filter .45s ease;
 }
@@ -829,7 +829,7 @@ body { color: #f1f1ef; }
   display: block; width: 100%; height: 100%; object-fit: contain; object-position: center;
   filter: grayscale(1) contrast(1.06); pointer-events: none;
 }
-.reference-photo-frame.portrait-photo-frame { width: auto; height: min(76vh, 700px); aspect-ratio: 3 / 4; }
+.reference-photo-frame.portrait-photo-frame { width: auto; height: min(41vh, 410px); aspect-ratio: 3 / 4; }
 .reference-photo-frame.rotated-photo-frame { width: min(56vw, 690px); height: auto; aspect-ratio: 16 / 9; }
 .reference-photo-frame.rotated-photo-frame img {
   position: absolute; left: 50%; top: 50%; width: 56.25%; height: 177.7778%;
@@ -879,8 +879,8 @@ body { color: #f1f1ef; }
 @media (max-width: 700px) {
   .reference-gallery { min-height: 520px; }
   .reference-slide { height: 48vh; min-height: 280px; padding: 3vh 2vw 4vh 31vw; }
-  .reference-photo-button { width: 70vw; height: 70vh; }
-  .reference-photo-frame.portrait-photo-frame { height: min(68vh, 590px); }
+  .reference-photo-button { width: 70vw; height: 42vh; }
+  .reference-photo-frame.portrait-photo-frame { height: min(41vh, 390px); }
   .reference-photo-frame.rotated-photo-frame { width: 70vw; }
   .reference-year-panel { --panel-width: 100vw; left: -57vw; height: 132%; padding-right: 7%; gap: 25px; }
   .reference-year-line { width: 76px; }
