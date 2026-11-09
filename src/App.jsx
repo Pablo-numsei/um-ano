@@ -1,4 +1,3 @@
-import { Heart } from 'lucide-react'
 import PolaroidLineCarousel from './components/PolaroidLineCarousel.jsx'
 
 const photos = [
@@ -17,32 +16,5 @@ const photos = [
 ]
 
 export default function App() {
-  return (
-    <main className="page">
-      <header className="topbar">
-        <a className="brand" href="#"><Heart size={17} strokeWidth={1.7} /> memorybook</a>
-        <span className="top-note">um ano de recordações</span>
-      </header>
-
-      <section className="intro">
-        <span className="eyebrow">12 MESES · 12 FOTOGRAFIAS</span>
-        <h1>Um ano de <em>você.</em></h1>
-        <p>Pequenos instantes que, juntos, contam uma história inteira.</p>
-        <div className="ornament"><span /> <Heart size={13} fill="currentColor" /> <span /></div>
-      </section>
-
-      <section className="album">
-        <div className="album-heading">
-          <span className="eyebrow">NOSSA LINHA DO TEMPO</span>
-          <span className="counter">12 <i>/</i> 12</span>
-        </div>
-        <PolaroidLineCarousel slides={photos} />
-      </section>
-
-      <footer>
-        <span>feito para guardar o que importa</span>
-        <Heart size={12} />
-      </footer>
-    </main>
-  )
+  return <main className="reference-page"><PolaroidLineCarousel slides={photos} /></main>
 }
