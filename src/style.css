@@ -790,3 +790,118 @@ footer svg { color: #aaa; }
   .editorial-fade-up, .editorial-focus-photo { animation: none; }
   .editorial-photo-button, .editorial-focus-photo { transition: none; }
 }
+
+
+/* Layout circular editorial inspirado na referência enviada */
+html, body, #root { min-width: 320px; min-height: 100%; margin: 0; background: #090909; }
+body { color: #f1f1ef; }
+.reference-page { width: 100%; min-height: 100svh; background: #090909; overflow: hidden; }
+.reference-gallery {
+  --panel-width: clamp(430px, 53vw, 760px);
+  position: relative; width: 100%; height: 100svh; min-height: 560px;
+  overflow: hidden; isolation: isolate; background: #090909; color: #f1f1ef;
+}
+.reference-stage {
+  position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden;
+  scroll-snap-type: y mandatory; scroll-behavior: smooth; scrollbar-width: none;
+  overscroll-behavior-y: contain;
+}
+.reference-stage::-webkit-scrollbar { display: none; }
+.reference-slide {
+  height: 100%; min-height: 560px; scroll-snap-align: start; scroll-snap-stop: always;
+  display: flex; align-items: center; justify-content: flex-end;
+  padding: 7vh 7vw 7vh 38vw; position: relative;
+}
+.reference-photo-button, .reference-focus-photo {
+  display: block; position: relative; width: min(56vw, 690px); height: min(78vh, 760px);
+  border: 0; padding: 0; background: transparent; cursor: pointer;
+  transform-origin: center; transition: transform .55s cubic-bezier(.2,.75,.25,1), filter .45s ease;
+}
+.reference-photo-button:hover { filter: brightness(1.12); }
+.reference-tilt-0 .reference-photo-button, .reference-focus-photo.reference-tilt-0 { transform: rotate(-7deg) translateX(1.5%); }
+.reference-tilt-1 .reference-photo-button, .reference-focus-photo.reference-tilt-1 { transform: rotate(6deg) translateX(-1%); }
+.reference-tilt-2 .reference-photo-button, .reference-focus-photo.reference-tilt-2 { transform: rotate(-3deg) translateX(2%); }
+.reference-photo-frame {
+  position: relative; width: 100%; height: 100%; display: grid; place-items: center;
+  overflow: hidden; background: #191919;
+}
+.reference-photo-frame img {
+  display: block; width: 100%; height: 100%; object-fit: contain; object-position: center;
+  filter: grayscale(1) contrast(1.06); pointer-events: none;
+}
+.reference-photo-frame.portrait-photo-frame { width: auto; height: min(76vh, 700px); aspect-ratio: 3 / 4; }
+.reference-photo-frame.rotated-photo-frame { width: min(56vw, 690px); height: auto; aspect-ratio: 16 / 9; }
+.reference-photo-frame.rotated-photo-frame img {
+  position: absolute; left: 50%; top: 50%; width: 56.25%; height: 177.7778%;
+  max-width: none; transform: translate(-50%, -50%) rotate(-90deg);
+}
+.reference-photo-frame.reverse-photo-frame img { transform: translate(-50%, -50%) rotate(90deg); }
+.reference-photo-index {
+  position: absolute; right: 12px; bottom: 10px; color: #e8e8e8;
+  font: 9px 'DM Sans', sans-serif; letter-spacing: .2em; text-shadow: 0 1px 6px #000;
+}
+.reference-year-panel {
+  position: absolute; z-index: 5; left: calc(var(--panel-width) * -.52); top: 50%;
+  width: var(--panel-width); height: 145%; transform: translateY(-50%); border-radius: 50%;
+  background: #050505; display: flex; flex-direction: column; align-items: flex-end;
+  justify-content: center; padding-right: 10%; gap: clamp(28px, 5vh, 54px); pointer-events: none;
+}
+.reference-year-line { display: block; width: clamp(100px, 15vw, 190px); height: 1px; background: #aaa; }
+.reference-month {
+  width: clamp(190px, 26vw, 360px); color: #f2f2f0; text-align: center;
+  font: 300 clamp(25px, 3.5vw, 47px)/1.15 'DM Sans', sans-serif;
+  letter-spacing: .2em; text-transform: uppercase; overflow-wrap: anywhere;
+}
+.reference-month-count { margin-top: -20px; color: #777; font: 9px 'DM Sans', sans-serif; letter-spacing: .22em; }
+.reference-scroll-controls { position: absolute; z-index: 8; right: 22px; bottom: 20px; display: flex; gap: 9px; }
+.reference-scroll-controls button, .reference-focus-close {
+  width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid #555;
+  border-radius: 50%; color: #eee; background: #111d; cursor: pointer;
+}
+.reference-scroll-controls button:disabled { opacity: .25; cursor: default; }
+.reference-focus {
+  position: absolute; z-index: 12; inset: 0; display: grid;
+  grid-template-columns: minmax(260px, .9fr) minmax(0, 1.1fr); align-items: center;
+  gap: clamp(18px, 4vw, 64px); padding: clamp(24px, 5vw, 72px);
+  background: #090909; overflow: hidden;
+}
+.reference-focus-copy { position: relative; z-index: 2; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+.reference-focus-kicker { color: #888; font: 9px 'DM Sans', sans-serif; letter-spacing: .2em; }
+.reference-focus-copy h2 { margin: 0; color: #f2f2f0; font: 300 clamp(25px, 3.6vw, 43px)/1.2 'DM Sans', sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+.reference-focus-rule { width: 110px; height: 1px; background: #777; }
+.reference-focus-copy p { margin: 0; max-width: 390px; color: #dededb; font: clamp(19px, 2.5vw, 27px)/1.3 'Playfair Display', serif; }
+.reference-fade-up { animation: referenceFadeUp .75s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes referenceFadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.reference-focus-copy small { color: #777; font: 9px 'DM Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+.reference-focus-photo { width: 100%; height: min(78vh, 760px); }
+.reference-focus-photo .reference-photo-frame { max-height: 76vh; }
+.reference-focus-close { position: absolute; z-index: 20; top: 18px; right: 18px; }
+@media (max-width: 700px) {
+  .reference-gallery { min-height: 520px; }
+  .reference-slide { min-height: 520px; padding: 5vh 2vw 7vh 31vw; }
+  .reference-photo-button { width: 70vw; height: 70vh; }
+  .reference-photo-frame.portrait-photo-frame { height: min(68vh, 590px); }
+  .reference-photo-frame.rotated-photo-frame { width: 70vw; }
+  .reference-year-panel { --panel-width: 76vw; left: -45vw; height: 132%; padding-right: 7%; gap: 25px; }
+  .reference-year-line { width: 76px; }
+  .reference-month { width: 45vw; font-size: clamp(18px, 5vw, 29px); letter-spacing: .12em; }
+  .reference-month-count { font-size: 8px; }
+  .reference-scroll-controls { right: 12px; bottom: 12px; }
+  .reference-scroll-controls button { width: 34px; height: 34px; }
+  .reference-focus { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); gap: 14px; padding: 54px 18px 18px; }
+  .reference-focus-copy { gap: 10px; }
+  .reference-focus-copy h2 { font-size: 23px; }
+  .reference-focus-copy p { font-size: 18px; line-height: 1.25; }
+  .reference-focus-copy small { font-size: 8px; }
+  .reference-focus-photo { width: min(100%, 430px); height: 45vh; justify-self: center; }
+  .reference-focus-photo .reference-photo-frame.portrait-photo-frame { height: 42vh; }
+  .reference-focus-photo .reference-photo-frame.rotated-photo-frame { width: 100%; }
+  .reference-focus-close { top: 10px; right: 10px; }
+}
+@media (max-width: 380px) {
+  .reference-slide { padding-left: 27vw; }
+  .reference-year-panel { left: -49vw; }
+  .reference-month { width: 48vw; font-size: 17px; }
+  .reference-photo-button { width: 73vw; }
+}
+@media (prefers-reduced-motion: reduce) { .reference-fade-up { animation: none; } .reference-photo-button, .reference-focus-photo { transition: none; } }
