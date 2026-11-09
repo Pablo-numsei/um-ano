@@ -20,7 +20,7 @@ export default function PolaroidLineCarousel({ slides }) {
 
   function onPointerDown(event) {
     if (event.target.closest('button')) return
-    drag.current = { x: event.clientX, start: position, moved: false }
+    drag.current = { x: event.clientX, start: position, startIndex: active, moved: false }
     setDragging(true)
     event.currentTarget.setPointerCapture(event.pointerId)
   }
@@ -38,11 +38,12 @@ export default function PolaroidLineCarousel({ slides }) {
   function onPointerUp() {
     if (!drag.current) return
     const moved = drag.current.moved
+    const startIndex = drag.current.startIndex
     drag.current = null
     setDragging(false)
     if (moved) {
       const next = Math.max(0, Math.min(slides.length - 1, Math.round(position)))
-      if (next !== active) {
+      if (next !== startIndex) {
         setFlippingIndex(next)
         setFlipVersion((version) => version + 1)
       }
