@@ -450,3 +450,34 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .hanging-polaroid { transition: none; }
 }
+
+
+/* Virada 3D do polaroid ativo ao navegar */
+.hanging-print {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+.hanging-print.is-flipping {
+  transform-origin: center center;
+  backface-visibility: hidden;
+  animation: polaroidFlipIn .62s cubic-bezier(.2,.72,.25,1) both;
+}
+@keyframes polaroidFlipIn {
+  0% {
+    opacity: .35;
+    transform: perspective(900px) rotateY(-82deg) scale(.94);
+  }
+  58% {
+    opacity: 1;
+    transform: perspective(900px) rotateY(9deg) scale(1.015);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(900px) rotateY(0deg) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hanging-print.is-flipping {
+    animation: none;
+  }
+}
