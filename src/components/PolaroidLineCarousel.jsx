@@ -4,12 +4,18 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
 export default function PolaroidLineCarousel({ slides }) {
   const [position, setPosition] = useState(0)
   const [dragging, setDragging] = useState(false)
+  const [flippingIndex, setFlippingIndex] = useState(null)
+  const [flipVersion, setFlipVersion] = useState(0)
   const drag = useRef(null)
   const active = Math.round(position)
   const spacing = 205
 
   function goTo(index) {
-    setPosition(Math.max(0, Math.min(slides.length - 1, index)))
+    const next = Math.max(0, Math.min(slides.length - 1, index))
+    if (next === active) return
+    setPosition(next)
+    setFlippingIndex(next)
+    setFlipVersion((version) => version + 1)
   }
 
   function onPointerDown(event) {
@@ -34,7 +40,14 @@ export default function PolaroidLineCarousel({ slides }) {
     const moved = drag.current.moved
     drag.current = null
     setDragging(false)
-    if (moved) setPosition((value) => Math.max(0, Math.min(slides.length - 1, Math.round(value))))
+    if (moved) {
+      const next = Math.max(0, Math.min(slides.length - 1, Math.round(position)))
+      if (next !== active) {
+        setFlippingIndex(next)
+        setFlipVersion((version) => version + 1)
+      }
+      setPosition(next)
+    }
   }
 
   return (
@@ -55,6 +68,7 @@ export default function PolaroidLineCarousel({ slides }) {
           const y = 76 + 42 * Math.max(0, 1 - Math.pow(distance * spacing / 500, 2))
           const rotation = Math.max(-9, Math.min(9, distance * 3.2))
           const isActive = index === active
+          const isFlipping = index === flippingIndex
           return (
             <article
               key={slide.src}
@@ -71,7 +85,13 @@ export default function PolaroidLineCarousel({ slides }) {
               aria-label={`Mostrar recordação ${index + 1}`}
             >
               <span className="hanging-peg" />
-              <div className="hanging-print">
+              <div
+                key={isFlipping ? flipVersion : 'static'}
+                className={`hanging-print ${isFlipping ? 'is-flipping' : ''}`}
+                onAnimationEnd={() => {
+                  if (isFlipping) setFlippingIndex(null)
+                }}
+              >
                 <div className={`hanging-photo ${slide.wideFrame ? 'portrait-photo-frame' : ''} ${slide.rotated ? 'rotated-photo-frame' : ''} ${slide.reverseRotation ? 'reverse-photo-frame' : ''}`}>
                   <img src={slide.src} alt={`Fotografia ${index + 1}`} draggable="false" />
                 </div>
