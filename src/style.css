@@ -797,7 +797,7 @@ html, body, #root { min-width: 320px; min-height: 100%; margin: 0; background: #
 body { color: #f1f1ef; }
 .reference-page { width: 100%; min-height: 100svh; background: #090909; overflow: hidden; }
 .reference-gallery {
-  --panel-width: clamp(430px, 53vw, 760px);
+  --panel-width: 100vw;
   position: relative; width: 100%; height: 100svh; min-height: 560px;
   overflow: hidden; isolation: isolate; background: #090909; color: #f1f1ef;
 }
@@ -808,7 +808,7 @@ body { color: #f1f1ef; }
 }
 .reference-stage::-webkit-scrollbar { display: none; }
 .reference-slide {
-  height: 100%; min-height: 560px; scroll-snap-align: start; scroll-snap-stop: always;
+  height: 48vh; min-height: 300px; scroll-snap-align: center; scroll-snap-stop: always;
   display: flex; align-items: center; justify-content: flex-end;
   padding: 7vh 7vw 7vh 38vw; position: relative;
 }
@@ -841,7 +841,7 @@ body { color: #f1f1ef; }
   font: 9px 'DM Sans', sans-serif; letter-spacing: .2em; text-shadow: 0 1px 6px #000;
 }
 .reference-year-panel {
-  position: absolute; z-index: 5; left: calc(var(--panel-width) * -.52); top: 50%;
+  position: absolute; z-index: 5; left: -52vw; top: 50%;
   width: var(--panel-width); height: 145%; transform: translateY(-50%); border-radius: 50%;
   background: #050505; display: flex; flex-direction: column; align-items: flex-end;
   justify-content: center; padding-right: 10%; gap: clamp(28px, 5vh, 54px); pointer-events: none;
@@ -878,11 +878,11 @@ body { color: #f1f1ef; }
 .reference-focus-close { position: absolute; z-index: 20; top: 18px; right: 18px; }
 @media (max-width: 700px) {
   .reference-gallery { min-height: 520px; }
-  .reference-slide { min-height: 520px; padding: 5vh 2vw 7vh 31vw; }
+  .reference-slide { height: 48vh; min-height: 280px; padding: 3vh 2vw 4vh 31vw; }
   .reference-photo-button { width: 70vw; height: 70vh; }
   .reference-photo-frame.portrait-photo-frame { height: min(68vh, 590px); }
   .reference-photo-frame.rotated-photo-frame { width: 70vw; }
-  .reference-year-panel { --panel-width: 76vw; left: -45vw; height: 132%; padding-right: 7%; gap: 25px; }
+  .reference-year-panel { --panel-width: 100vw; left: -57vw; height: 132%; padding-right: 7%; gap: 25px; }
   .reference-year-line { width: 76px; }
   .reference-month { width: 45vw; font-size: clamp(18px, 5vw, 29px); letter-spacing: .12em; }
   .reference-month-count { font-size: 8px; }
@@ -900,7 +900,7 @@ body { color: #f1f1ef; }
 }
 @media (max-width: 380px) {
   .reference-slide { padding-left: 27vw; }
-  .reference-year-panel { left: -49vw; }
+  .reference-year-panel { left: -60vw; }
   .reference-month { width: 48vw; font-size: 17px; }
   .reference-photo-button { width: 73vw; }
 }
