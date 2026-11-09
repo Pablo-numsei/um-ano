@@ -997,3 +997,165 @@ body { color: #f1f1ef; }
   .wheel-orbit { left: 22%; }
   .wheel-center { left: 22%; width: 52vw; }
 }
+
+
+/* Memórias — álbum em papel preto, com polaroids */
+body {
+  color: #eee8e5;
+  background: #090909;
+}
+.memory-gallery {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  padding: 28px clamp(16px, 5vw, 76px) 34px;
+  color: #eee8e5;
+  background:
+    radial-gradient(ellipse at 50% 35%, #242222 0%, #111 58%, #070707 100%);
+}
+.memory-gallery::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .2;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+}
+.memory-heading { position: relative; z-index: 1; text-align: center; margin: 6px auto 28px; }
+.memory-title-wrap { display: flex; align-items: center; justify-content: center; gap: clamp(12px, 4vw, 44px); }
+.memory-title-wrap h1 {
+  margin: 0;
+  color: #e9dfdc;
+  font: 500 clamp(54px, 8vw, 104px)/1.05 'Caveat', cursive;
+  letter-spacing: .015em;
+  text-shadow: 0 2px 16px #fff1;
+}
+.memory-title-wrap h1 span { font-family: 'Caveat', cursive; font-size: .8em; }
+.memory-rays { color: #e9dfdc; font: 56px/1 'Playfair Display', serif; transform: rotate(-25deg); }
+.memory-rays-right { transform: rotate(155deg); }
+.memory-heading p { margin: 5px 0 0; color: #e5dcda; font: clamp(12px, 1.7vw, 17px)/1.5 monospace; letter-spacing: .03em; }
+.memory-heading p span { font-size: 22px; vertical-align: -2px; }
+.memory-grid {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: clamp(18px, 4vw, 56px);
+  row-gap: clamp(22px, 3.5vw, 38px);
+  align-items: start;
+}
+.memory-polaroid {
+  position: relative;
+  display: block;
+  min-width: 0;
+  width: 100%;
+  padding: 11px 11px 0;
+  border: 0;
+  border-radius: 0;
+  color: #111;
+  background: #e9e1df;
+  box-shadow: 0 9px 22px #0008;
+  cursor: pointer;
+  transform: rotate(var(--tilt, -1deg));
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.memory-polaroid:nth-child(3n) { --tilt: 1.2deg; }
+.memory-polaroid:nth-child(4n + 2) { --tilt: -.7deg; }
+.memory-polaroid:hover { transform: translateY(-5px) rotate(0deg); box-shadow: 0 15px 28px #000a; }
+.memory-tape {
+  position: absolute;
+  z-index: 3;
+  top: -9px;
+  left: 50%;
+  width: 70px;
+  height: 23px;
+  transform: translateX(-50%) rotate(2deg);
+  background: #aaa5a2b8;
+  box-shadow: 0 2px 5px #0004;
+  opacity: .8;
+}
+.memory-tape::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent, #fff3, transparent); }
+.memory-photo-frame {
+  width: 100%;
+  aspect-ratio: 1.25 / 1;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  position: relative;
+  background: #111;
+}
+.memory-photo-frame img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
+.memory-photo-frame.portrait-photo-frame { aspect-ratio: 3 / 4; }
+.memory-photo-frame.rotated-photo-frame { aspect-ratio: 16 / 9; }
+.memory-photo-frame.rotated-photo-frame img {
+  position: absolute; left: 50%; top: 50%; width: 56.25%; height: 177.7778%;
+  max-width: none; transform: translate(-50%, -50%) rotate(-90deg);
+}
+.memory-photo-frame.reverse-photo-frame img { transform: translate(-50%, -50%) rotate(90deg); }
+.memory-date {
+  min-height: 43px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  color: #171313;
+  font: italic clamp(15px, 1.65vw, 21px)/1 'Caveat', cursive;
+  white-space: nowrap;
+}
+.memory-date span { font: 23px/1 'Caveat', cursive; }
+.memory-doodle { position: absolute; z-index: 0; color: #e8dfdc; font: clamp(64px, 8vw, 110px)/1 'Caveat', cursive; pointer-events: none; }
+.memory-doodle-left { left: 3%; top: 20%; transform: rotate(-18deg); }
+.memory-doodle-right { right: 3%; top: 40%; transform: rotate(15deg); }
+.memory-spark { position: absolute; z-index: 0; color: #e8dfdc; font-size: 32px; pointer-events: none; }
+.memory-spark-one { left: 6%; top: 16%; }
+.memory-spark-two { right: 7%; top: 25%; }
+.memory-spark-three { left: 10%; bottom: 17%; }
+.memory-bottom-ornament { display: flex; justify-content: center; align-items: center; gap: 18px; margin: 35px auto 0; color: #e8dfdc; font: 42px/1 'Caveat', cursive; }
+.memory-bottom-ornament span { width: min(22vw, 180px); height: 1px; background: #aaa09c; }
+.memory-lightbox {
+  position: fixed; z-index: 1000; inset: 0; padding: 28px;
+  display: flex; justify-content: center; align-items: center; gap: clamp(22px, 5vw, 70px);
+  background: #050505f5; color: #eee8e5;
+}
+.memory-lightbox-photo { position: relative; z-index: 1; width: min(48vw, 490px); max-height: 82svh; padding: 14px 14px 0; background: #e9e1df; box-shadow: 0 20px 70px #000; }
+.memory-lightbox-photo .memory-photo-frame { max-height: 70svh; }
+.memory-lightbox-photo .memory-photo-frame img { max-height: 70svh; }
+.memory-lightbox-copy { position: relative; z-index: 1; width: min(390px, 42vw); }
+.memory-lightbox-copy > span { color: #bcb0ac; font: 11px monospace; letter-spacing: .18em; text-transform: uppercase; }
+.memory-lightbox-copy p { color: #f0e8e5; font: clamp(26px, 4vw, 42px)/1.12 'Caveat', cursive; }
+.memory-lightbox-copy small { color: #aaa09c; font: 11px monospace; }
+.memory-fade-up { animation: memoryFadeUp .65s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes memoryFadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+.memory-close { position: absolute; z-index: 3; top: 20px; right: 22px; display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #aaa5a266; border-radius: 50%; color: #eee; background: #111; cursor: pointer; }
+.memory-lightbox-dismiss { position: absolute; inset: 0; border: 0; background: transparent; cursor: default; }
+@media (max-width: 760px) {
+  .memory-gallery { padding: 28px 18px 30px; }
+  .memory-heading { margin-bottom: 25px; }
+  .memory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 22px; row-gap: 28px; }
+  .memory-polaroid { padding: 8px 8px 0; }
+  .memory-date { min-height: 37px; font-size: clamp(15px, 3.6vw, 19px); }
+  .memory-doodle { font-size: 60px; opacity: .65; }
+  .memory-doodle-left { left: 0; top: 13%; }
+  .memory-doodle-right { right: 0; top: 55%; }
+  .memory-lightbox { flex-direction: column; gap: 20px; padding: 62px 20px 24px; overflow-y: auto; }
+  .memory-lightbox-photo { width: min(82vw, 360px); max-height: 48svh; }
+  .memory-lightbox-photo .memory-photo-frame, .memory-lightbox-photo .memory-photo-frame img { max-height: 42svh; }
+  .memory-lightbox-copy { width: min(88vw, 420px); text-align: center; }
+  .memory-lightbox-copy p { margin: 10px 0; font-size: clamp(25px, 7vw, 34px); }
+}
+@media (max-width: 380px) {
+  .memory-gallery { padding-inline: 12px; }
+  .memory-grid { column-gap: 14px; row-gap: 24px; }
+  .memory-polaroid { padding: 7px 7px 0; }
+  .memory-date { font-size: 15px; gap: 5px; }
+  .memory-tape { width: 55px; height: 19px; }
+  .memory-rays { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .memory-polaroid, .memory-fade-up { transition: none; animation: none; }
+}
