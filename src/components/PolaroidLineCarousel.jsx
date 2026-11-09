@@ -66,13 +66,12 @@ export default function PolaroidLineCarousel({ slides }) {
       {focused !== null && (
         <div className="memory-lightbox" role="dialog" aria-modal="true" aria-label={'Memória de ' + months[focused]}>
           <button className="memory-close" type="button" onClick={() => setFocused(null)} aria-label="Fechar"><X size={21} /></button>
-          <div className="memory-lightbox-photo">{photoFrame(slides[focused], focused)}</div>
+          <button className="memory-lightbox-photo" type="button" onClick={() => setFocused(null)} aria-label="Voltar à galeria">{photoFrame(slides[focused], focused)}</button>
           <div className="memory-lightbox-copy">
             <span>{months[focused]} · {dates[focused]}</span>
             <p key={focused} className="memory-fade-up">{slides[focused].caption}</p>
             <small>toque na fotografia para fechar</small>
           </div>
-          <button className="memory-lightbox-dismiss" type="button" onClick={() => setFocused(null)} aria-label="Fechar fotografia" />
         </div>
       )}
     </section>
