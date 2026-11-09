@@ -1,48 +1,23 @@
-import { useEffect, useRef, useState } from 'react'
-import { ChevronDown, ChevronUp, X } from 'lucide-react'
+import { useState } from 'react'
+import { X } from 'lucide-react'
 
 const months = [
   'Novembro', 'Dezembro', 'Janeiro', 'Fevereiro',
   'Março', 'Abril', 'Maio', 'Junho',
-  'Julho', 'Agosto', 'Setembro', 'Novembro',
+  'Julho', 'Agosto', 'Setembro', 'Outubro',
+]
+
+const dates = [
+  '15/11/2025', '15/12/2025', '15/01/2026', '15/02/2026',
+  '15/03/2026', '15/04/2026', '15/05/2026', '15/06/2026',
+  '15/07/2026', '15/08/2026', '15/09/2026', '15/10/2026',
 ]
 
 export default function PolaroidLineCarousel({ slides }) {
-  const [active, setActive] = useState(0)
   const [focused, setFocused] = useState(null)
-  const wheelRef = useRef(null)
-  const touchStart = useRef(null)
-
-  function moveTo(index) {
-    const next = (index + slides.length) % slides.length
-    setActive(next)
-  }
-
-  useEffect(() => {
-    const wheel = wheelRef.current
-    if (!wheel) return
-    wheel.style.setProperty('--wheel-angle', `${-active * (360 / slides.length)}deg`)
-  }, [active, slides.length])
-
-  function handleWheel(event) {
-    event.preventDefault()
-    if (Math.abs(event.deltaY) < 8) return
-    moveTo(active + (event.deltaY > 0 ? 1 : -1))
-  }
-
-  function handleTouchStart(event) {
-    touchStart.current = event.touches[0].clientY
-  }
-
-  function handleTouchEnd(event) {
-    if (touchStart.current === null) return
-    const delta = touchStart.current - event.changedTouches[0].clientY
-    if (Math.abs(delta) > 28) moveTo(active + (delta > 0 ? 1 : -1))
-    touchStart.current = null
-  }
 
   function photoFrame(slide, index) {
-    const classes = 'wheel-photo-frame'
+    const classes = 'memory-photo-frame'
       + (slide.wideFrame ? ' portrait-photo-frame' : '')
       + (slide.rotated ? ' rotated-photo-frame' : '')
       + (slide.reverseRotation ? ' reverse-photo-frame' : '')
@@ -54,58 +29,50 @@ export default function PolaroidLineCarousel({ slides }) {
   }
 
   return (
-    <section className="reference-gallery wheel-gallery" aria-label="Roleta de fotografias">
-      <div
-        className="wheel-viewport"
-        onWheel={handleWheel}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      >
-        <div className="wheel-orbit" ref={wheelRef}>
-          {slides.map((slide, index) => {
-            const angle = (360 / slides.length) * index
-            const distance = Math.min(Math.abs(index - active), slides.length - Math.abs(index - active))
-            return (
-              <button
-                type="button"
-                key={slide.src}
-                className={'wheel-segment' + (index === active ? ' is-active' : '')}
-                style={{ '--segment-angle': `${angle}deg`, '--segment-distance': distance }}
-                onClick={() => index === active ? setFocused(index) : moveTo(index)}
-                aria-label={index === active ? 'Abrir fotografia de ' + months[index] : 'Ir para ' + months[index]}
-              >
-                {photoFrame(slide, index)}
-              </button>
-            )
-          })}
+    <section className="memory-gallery" aria-label="Memórias do nosso relacionamento">
+      <header className="memory-heading">
+        <div className="memory-title-wrap">
+          <span className="memory-rays" aria-hidden="true">⌁</span>
+          <h1>Memórias <span aria-hidden="true">♡</span></h1>
+          <span className="memory-rays memory-rays-right" aria-hidden="true">⌁</span>
         </div>
-        <div className="wheel-center" aria-hidden="true">
-          <span className="wheel-center-line" />
-          <span className="wheel-center-month">{months[active]}</span>
-          <span className="wheel-center-count">{String(active + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}</span>
-          <span className="wheel-center-line" />
-        </div>
+        <p>12 meses, 12 capítulos, uma história linda... <span aria-hidden="true">♡</span></p>
+      </header>
+
+      <div className="memory-doodle memory-doodle-left" aria-hidden="true">♡</div>
+      <div className="memory-doodle memory-doodle-right" aria-hidden="true">♡</div>
+      <div className="memory-spark memory-spark-one" aria-hidden="true">✧</div>
+      <div className="memory-spark memory-spark-two" aria-hidden="true">✧</div>
+      <div className="memory-spark memory-spark-three" aria-hidden="true">✧</div>
+
+      <div className="memory-grid">
+        {slides.map((slide, index) => (
+          <button
+            className="memory-polaroid"
+            type="button"
+            key={slide.src}
+            onClick={() => setFocused(index)}
+            aria-label={'Abrir memória de ' + months[index] + ', ' + dates[index]}
+          >
+            <span className="memory-tape" aria-hidden="true" />
+            {photoFrame(slide, index)}
+            <span className="memory-date">{dates[index]} <span aria-hidden="true">♡</span></span>
+          </button>
+        ))}
       </div>
 
-      <div className="wheel-controls">
-        <button type="button" onClick={() => moveTo(active - 1)} aria-label="Fotografia anterior"><ChevronUp size={18} /></button>
-        <span>ROLE PARA GIRAR</span>
-        <button type="button" onClick={() => moveTo(active + 1)} aria-label="Próxima fotografia"><ChevronDown size={18} /></button>
-      </div>
+      <div className="memory-bottom-ornament" aria-hidden="true"><span />♡<span /></div>
 
       {focused !== null && (
-        <div className="reference-focus wheel-focus" role="dialog" aria-modal="true" aria-label={'Recordação de ' + months[focused]}>
-          <div className="reference-focus-copy">
-            <span className="reference-focus-kicker">UMA LEMBRANÇA · {String(focused + 1).padStart(2, '0')}</span>
-            <h2>{months[focused]}</h2>
-            <span className="reference-focus-rule" />
-            <p key={focused} className="reference-fade-up">{slides[focused].caption}</p>
-            <small>toque na fotografia para voltar à roleta</small>
+        <div className="memory-lightbox" role="dialog" aria-modal="true" aria-label={'Memória de ' + months[focused]}>
+          <button className="memory-close" type="button" onClick={() => setFocused(null)} aria-label="Fechar"><X size={21} /></button>
+          <div className="memory-lightbox-photo">{photoFrame(slides[focused], focused)}</div>
+          <div className="memory-lightbox-copy">
+            <span>{months[focused]} · {dates[focused]}</span>
+            <p key={focused} className="memory-fade-up">{slides[focused].caption}</p>
+            <small>toque na fotografia para fechar</small>
           </div>
-          <button type="button" className="reference-focus-photo" onClick={() => setFocused(null)} aria-label="Voltar à roleta">
-            {photoFrame(slides[focused], focused)}
-          </button>
-          <button type="button" className="reference-focus-close" onClick={() => setFocused(null)} aria-label="Fechar"><X size={18} /></button>
+          <button className="memory-lightbox-dismiss" type="button" onClick={() => setFocused(null)} aria-label="Fechar fotografia" />
         </div>
       )}
     </section>
