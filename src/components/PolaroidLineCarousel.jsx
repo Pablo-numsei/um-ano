@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { X } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, CalendarDays, Camera } from 'lucide-react'
 
 const months = [
   'Novembro', 'Dezembro', 'Janeiro', 'Fevereiro',
@@ -65,12 +65,27 @@ export default function PolaroidLineCarousel({ slides }) {
 
       {focused !== null && (
         <div className="memory-lightbox" role="dialog" aria-modal="true" aria-label={'Memória de ' + months[focused]}>
-          <button className="memory-close" type="button" onClick={() => setFocused(null)} aria-label="Fechar"><X size={21} /></button>
-          <button className="memory-lightbox-photo" type="button" onClick={() => setFocused(null)} aria-label="Voltar à galeria">{photoFrame(slides[focused], focused)}</button>
-          <div className="memory-lightbox-copy">
-            <span>{months[focused]} · {dates[focused]}</span>
-            <p key={focused} className="memory-fade-up">{slides[focused].caption}</p>
-            <small>toque na fotografia para fechar</small>
+          <div className="memory-lightbox-panel">
+            <button className="memory-close" type="button" onClick={() => setFocused(null)} aria-label="Fechar"><X size={21} /></button>
+            <button className="memory-lightbox-nav memory-lightbox-prev" type="button" onClick={() => setFocused((focused + slides.length - 1) % slides.length)} aria-label="Memória anterior"><ChevronLeft size={22} /></button>
+            <button className="memory-lightbox-photo" type="button" onClick={() => setFocused(null)} aria-label="Voltar à galeria">
+              <span className="memory-lightbox-tape" aria-hidden="true" />
+              {photoFrame(slides[focused], focused)}
+              <span className="memory-photo-corner" aria-hidden="true">♡</span>
+            </button>
+            <div className="memory-lightbox-copy">
+              <span className="memory-lightbox-date"><CalendarDays size={15} /> {months[focused]} <i>·</i> {dates[focused]}</span>
+              <span className="memory-lightbox-divider" />
+              <p key={focused} className="memory-fade-up">{slides[focused].caption}</p>
+              <span className="memory-lightbox-heart" aria-hidden="true">♡</span>
+              <small><Camera size={14} /> toque na fotografia para voltar às memórias</small>
+              <div className="memory-lightbox-progress" aria-label={'Memória ' + (focused + 1) + ' de ' + slides.length}>
+                <span>{String(focused + 1).padStart(2, '0')}</span>
+                <i><b style={{ width: ((focused + 1) / slides.length * 100) + '%' }} /></i>
+                <span>{String(slides.length).padStart(2, '0')}</span>
+              </div>
+            </div>
+            <button className="memory-lightbox-nav memory-lightbox-next" type="button" onClick={() => setFocused((focused + 1) % slides.length)} aria-label="Próxima memória"><ChevronRight size={22} /></button>
           </div>
         </div>
       )}
