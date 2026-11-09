@@ -10,8 +10,18 @@ export default function PolaroidLineCarousel({ slides }) {
 
   function handleScroll(event) {
     const element = event.currentTarget
-    const next = Math.round(element.scrollTop / element.clientHeight)
-    setActive(Math.max(0, Math.min(slides.length - 1, next)))
+    const center = element.scrollTop + element.clientHeight / 2
+    let nearest = 0
+    let distance = Number.POSITIVE_INFINITY
+    Array.from(element.children).forEach((child, index) => {
+      const childCenter = child.offsetTop + child.offsetHeight / 2
+      const currentDistance = Math.abs(center - childCenter)
+      if (currentDistance < distance) {
+        nearest = index
+        distance = currentDistance
+      }
+    })
+    setActive(nearest)
   }
 
   function moveTo(index) {
