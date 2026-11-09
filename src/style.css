@@ -984,3 +984,16 @@ body { color: #f1f1ef; }
 @media (prefers-reduced-motion: reduce) {
   .wheel-orbit { transition: none; }
 }
+
+
+/* Desloca o eixo da roleta para a esquerda, deixando os segmentos visíveis à direita */
+.wheel-orbit { left: 22%; }
+.wheel-center { position: absolute; left: 22%; top: 50%; transform: translate(-50%, -50%); }
+@media (min-width: 900px) {
+  .wheel-orbit { left: 22%; }
+  .wheel-center { left: 22%; }
+}
+@media (max-width: 600px) {
+  .wheel-orbit { left: 22%; }
+  .wheel-center { left: 22%; width: 52vw; }
+}
