@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChevronDown, ChevronUp, X } from 'lucide-react'
 
 const months = [
@@ -10,137 +10,102 @@ const months = [
 export default function PolaroidLineCarousel({ slides }) {
   const [active, setActive] = useState(0)
   const [focused, setFocused] = useState(null)
-  const stageRef = useRef(null)
-
-  function handleScroll(event) {
-    const element = event.currentTarget
-    const center = element.scrollTop + element.clientHeight / 2
-    let nearest = 0
-    let distance = Number.POSITIVE_INFINITY
-
-    Array.from(element.children).forEach((child, index) => {
-      const childCenter = child.offsetTop + child.offsetHeight / 2
-      const currentDistance = Math.abs(center - childCenter)
-      if (currentDistance < distance) {
-        nearest = index
-        distance = currentDistance
-      }
-    })
-
-    setActive(nearest)
-  }
+  const wheelRef = useRef(null)
+  const touchStart = useRef(null)
 
   function moveTo(index) {
-    const next = Math.max(0, Math.min(slides.length - 1, index))
-    const target = stageRef.current && stageRef.current.children[next]
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    const next = (index + slides.length) % slides.length
     setActive(next)
   }
 
+  useEffect(() => {
+    const wheel = wheelRef.current
+    if (!wheel) return
+    wheel.style.setProperty('--wheel-angle', `${-active * (360 / slides.length)}deg`)
+  }, [active, slides.length])
+
+  function handleWheel(event) {
+    event.preventDefault()
+    if (Math.abs(event.deltaY) < 8) return
+    moveTo(active + (event.deltaY > 0 ? 1 : -1))
+  }
+
+  function handleTouchStart(event) {
+    touchStart.current = event.touches[0].clientY
+  }
+
+  function handleTouchEnd(event) {
+    if (touchStart.current === null) return
+    const delta = touchStart.current - event.changedTouches[0].clientY
+    if (Math.abs(delta) > 28) moveTo(active + (delta > 0 ? 1 : -1))
+    touchStart.current = null
+  }
+
   function photoFrame(slide, index) {
-    const frameClass = 'reference-photo-frame'
+    const classes = 'wheel-photo-frame'
       + (slide.wideFrame ? ' portrait-photo-frame' : '')
       + (slide.rotated ? ' rotated-photo-frame' : '')
       + (slide.reverseRotation ? ' reverse-photo-frame' : '')
-
     return (
-      <div className={frameClass}>
-        <img
-          src={slide.src}
-          alt={'Fotografia de ' + months[index]}
-          draggable="false"
-        />
+      <div className={classes}>
+        <img src={slide.src} alt={'Fotografia de ' + months[index]} draggable="false" />
       </div>
     )
   }
 
   return (
-    <section className="reference-gallery" aria-label="Linha do tempo de recordações">
-      <div className="reference-stage" ref={stageRef} onScroll={handleScroll}>
-        {slides.map((slide, index) => (
-          <article
-            className={'reference-slide reference-tilt-' + (index % 3)}
-            key={slide.src}
-          >
-            <button
-              type="button"
-              className="reference-photo-button"
-              onClick={() => setFocused(index)}
-              aria-label={'Ampliar fotografia de ' + months[index]}
-            >
-              {photoFrame(slide, index)}
-              <span className="reference-photo-index">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-            </button>
-          </article>
-        ))}
+    <section className="reference-gallery wheel-gallery" aria-label="Roleta de fotografias">
+      <div
+        className="wheel-viewport"
+        onWheel={handleWheel}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className="wheel-orbit" ref={wheelRef}>
+          {slides.map((slide, index) => {
+            const angle = (360 / slides.length) * index
+            const distance = Math.min(Math.abs(index - active), slides.length - Math.abs(index - active))
+            return (
+              <button
+                type="button"
+                key={slide.src}
+                className={'wheel-segment' + (index === active ? ' is-active' : '')}
+                style={{ '--segment-angle': `${angle}deg`, '--segment-distance': distance }}
+                onClick={() => index === active ? setFocused(index) : moveTo(index)}
+                aria-label={index === active ? 'Abrir fotografia de ' + months[index] : 'Ir para ' + months[index]}
+              >
+                {photoFrame(slide, index)}
+              </button>
+            )
+          })}
+        </div>
+        <div className="wheel-center" aria-hidden="true">
+          <span className="wheel-center-line" />
+          <span className="wheel-center-month">{months[active]}</span>
+          <span className="wheel-center-count">{String(active + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}</span>
+          <span className="wheel-center-line" />
+        </div>
       </div>
 
-      <aside className="reference-year-panel" aria-live="polite">
-        <span className="reference-year-line" />
-        <span className="reference-month">{months[active] || 'Novembro'}</span>
-        <span className="reference-month-count">
-          {String(active + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
-        </span>
-        <span className="reference-year-line" />
-      </aside>
-
-      <div className="reference-scroll-controls" aria-label="Navegar pelas fotografias">
-        <button
-          type="button"
-          onClick={() => moveTo(active - 1)}
-          disabled={active === 0}
-          aria-label="Fotografia anterior"
-        >
-          <ChevronUp size={17} />
-        </button>
-        <button
-          type="button"
-          onClick={() => moveTo(active + 1)}
-          disabled={active === slides.length - 1}
-          aria-label="Próxima fotografia"
-        >
-          <ChevronDown size={17} />
-        </button>
+      <div className="wheel-controls">
+        <button type="button" onClick={() => moveTo(active - 1)} aria-label="Fotografia anterior"><ChevronUp size={18} /></button>
+        <span>ROLE PARA GIRAR</span>
+        <button type="button" onClick={() => moveTo(active + 1)} aria-label="Próxima fotografia"><ChevronDown size={18} /></button>
       </div>
 
       {focused !== null && (
-        <div
-          className="reference-focus"
-          role="dialog"
-          aria-modal="true"
-          aria-label={'Recordação de ' + months[focused]}
-        >
+        <div className="reference-focus wheel-focus" role="dialog" aria-modal="true" aria-label={'Recordação de ' + months[focused]}>
           <div className="reference-focus-copy">
-            <span className="reference-focus-kicker">
-              UMA LEMBRANÇA · {String(focused + 1).padStart(2, '0')}
-            </span>
+            <span className="reference-focus-kicker">UMA LEMBRANÇA · {String(focused + 1).padStart(2, '0')}</span>
             <h2>{months[focused]}</h2>
             <span className="reference-focus-rule" />
-            <p key={focused} className="reference-fade-up">
-              {slides[focused].caption}
-            </p>
-            <small>toque na fotografia para voltar</small>
+            <p key={focused} className="reference-fade-up">{slides[focused].caption}</p>
+            <small>toque na fotografia para voltar à roleta</small>
           </div>
-
-          <button
-            type="button"
-            className={'reference-focus-photo reference-tilt-' + (focused % 3)}
-            onClick={() => setFocused(null)}
-            aria-label="Voltar à galeria"
-          >
+          <button type="button" className="reference-focus-photo" onClick={() => setFocused(null)} aria-label="Voltar à roleta">
             {photoFrame(slides[focused], focused)}
           </button>
-
-          <button
-            type="button"
-            className="reference-focus-close"
-            onClick={() => setFocused(null)}
-            aria-label="Fechar"
-          >
-            <X size={18} />
-          </button>
+          <button type="button" className="reference-focus-close" onClick={() => setFocused(null)} aria-label="Fechar"><X size={18} /></button>
         </div>
       )}
     </section>
