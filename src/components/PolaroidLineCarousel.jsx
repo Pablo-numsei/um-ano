@@ -1,11 +1,7 @@
 import { useRef, useState } from 'react'
-import { ArrowDown, ArrowUp, X } from 'lucide-react'
+import { ChevronDown, ChevronUp, X } from 'lucide-react'
 
-const months = [
-  'Novembro', 'Dezembro', 'Janeiro', 'Fevereiro',
-  'Março', 'Abril', 'Maio', 'Junho',
-  'Julho', 'Agosto', 'Setembro', 'Novembro',
-]
+const months = ['Novembro', 'Dezembro', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Novembro']
 
 export default function PolaroidLineCarousel({ slides }) {
   const [active, setActive] = useState(0)
@@ -24,62 +20,52 @@ export default function PolaroidLineCarousel({ slides }) {
     setActive(next)
   }
 
-  function photoFrame(slide, index, extra = '') {
+  function photoFrame(slide, index) {
     return (
-      <div className={`editorial-photo-frame ${slide.wideFrame ? 'portrait-photo-frame' : ''} ${slide.rotated ? 'rotated-photo-frame' : ''} ${slide.reverseRotation ? 'reverse-photo-frame' : ''} ${extra}`}>
-        <img src={slide.src} alt={`Fotografia de ${months[index]}`} draggable="false" />
+      <div className={\`reference-photo-frame \${slide.wideFrame ? 'portrait-photo-frame' : ''} \${slide.rotated ? 'rotated-photo-frame' : ''} \${slide.reverseRotation ? 'reverse-photo-frame' : ''}\`}>
+        <img src={slide.src} alt={\`Fotografia de \${months[index]}\`} draggable="false" />
       </div>
     )
   }
 
   return (
-    <section className="line-carousel editorial-gallery" aria-label="Galeria de recordações">
-      <div className="editorial-stage" ref={stageRef} onScroll={handleScroll}>
+    <section className="reference-gallery" aria-label="Linha do tempo de recordações">
+      <div className="reference-stage" ref={stageRef} onScroll={handleScroll}>
         {slides.map((slide, index) => (
-          <article className={`editorial-slide ${active === index ? 'is-current' : ''}`} key={slide.src}>
-            <div className="editorial-month">
-              <span className="editorial-rule" />
-              <span className="editorial-month-name">{months[index] || `Mês ${index + 1}`}</span>
-              <span className="editorial-month-number">{String(index + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}</span>
-              <span className="editorial-rule" />
-            </div>
-            <button
-              type="button"
-              className={`editorial-photo-button photo-tilt-${index % 3}`}
-              onClick={() => setFocused(index)}
-              aria-label={`Destacar fotografia de ${months[index]}`}
-            >
+          <article className={\`reference-slide reference-tilt-\${index % 3}\`} key={slide.src}>
+            <button type="button" className="reference-photo-button" onClick={() => setFocused(index)} aria-label={\`Ampliar fotografia de \${months[index]}\`}>
               {photoFrame(slide, index)}
-              <span className="editorial-photo-hint">toque para revelar</span>
+              <span className="reference-photo-index">{String(index + 1).padStart(2, '0')}</span>
             </button>
           </article>
         ))}
       </div>
 
-      <div className="editorial-scroll-controls" aria-label="Navegar pelas fotografias">
-        <button type="button" onClick={() => moveTo(active - 1)} disabled={active === 0} aria-label="Mês anterior"><ArrowUp size={16} /></button>
-        <span>{months[active] || `Mês ${active + 1}`}</span>
-        <button type="button" onClick={() => moveTo(active + 1)} disabled={active === slides.length - 1} aria-label="Próximo mês"><ArrowDown size={16} /></button>
+      <aside className="reference-year-panel" aria-live="polite">
+        <span className="reference-year-line" />
+        <span className="reference-month">{months[active] || 'Novembro'}</span>
+        <span className="reference-month-count">{String(active + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}</span>
+        <span className="reference-year-line" />
+      </aside>
+
+      <div className="reference-scroll-controls" aria-label="Navegar pelas fotografias">
+        <button type="button" onClick={() => moveTo(active - 1)} disabled={active === 0} aria-label="Fotografia anterior"><ChevronUp size={17} /></button>
+        <button type="button" onClick={() => moveTo(active + 1)} disabled={active === slides.length - 1} aria-label="Próxima fotografia"><ChevronDown size={17} /></button>
       </div>
 
       {focused !== null && (
-        <div className="editorial-focus" role="dialog" aria-modal="true" aria-label={`Recordação de ${months[focused]}`}>
-          <div className="editorial-focus-copy">
-            <span className="editorial-focus-kicker">UMA LEMBRANÇA · {String(focused + 1).padStart(2, '0')}</span>
+        <div className="reference-focus" role="dialog" aria-modal="true" aria-label={\`Recordação de \${months[focused]}\`}>
+          <div className="reference-focus-copy">
+            <span className="reference-focus-kicker">UMA LEMBRANÇA · {String(focused + 1).padStart(2, '0')}</span>
             <h2>{months[focused]}</h2>
-            <span className="editorial-focus-rule" />
-            <p className="editorial-fade-up">{slides[focused].caption}</p>
-            <small className="editorial-focus-hint">toque na fotografia para voltar</small>
+            <span className="reference-focus-rule" />
+            <p key={focused} className="reference-fade-up">{slides[focused].caption}</p>
+            <small>toque na fotografia para voltar</small>
           </div>
-          <button
-            type="button"
-            className={`editorial-focus-photo photo-tilt-${focused % 3}`}
-            onClick={() => setFocused(null)}
-            aria-label="Fechar destaque e voltar à galeria"
-          >
+          <button type="button" className={\`reference-focus-photo reference-tilt-\${focused % 3}\`} onClick={() => setFocused(null)} aria-label="Voltar à galeria">
             {photoFrame(slides[focused], focused)}
           </button>
-          <button type="button" className="editorial-focus-close" onClick={() => setFocused(null)} aria-label="Fechar destaque"><X size={18} /></button>
+          <button type="button" className="reference-focus-close" onClick={() => setFocused(null)} aria-label="Fechar"><X size={18} /></button>
         </div>
       )}
     </section>
