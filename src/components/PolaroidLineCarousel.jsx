@@ -4,7 +4,7 @@ import { ArrowDown, ArrowUp, X } from 'lucide-react'
 const months = [
   'Novembro', 'Dezembro', 'Janeiro', 'Fevereiro',
   'Março', 'Abril', 'Maio', 'Junho',
-  'Julho', 'Agosto', 'Setembro', 'Outubro',
+  'Julho', 'Agosto', 'Setembro', 'Novembro',
 ]
 
 export default function PolaroidLineCarousel({ slides }) {
