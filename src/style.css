@@ -1807,3 +1807,57 @@ body {
   object-fit: cover;
   object-position: center;
 }
+
+/* Lightbox: mantém a mesma moldura vertical do varal também para fotos horizontais giradas. */
+.memory-lightbox-photo {
+  width: min(440px, 48svh);
+  max-height: none;
+}
+
+.memory-lightbox-photo .memory-photo-frame,
+.memory-lightbox-photo .memory-photo-frame.portrait-photo-frame,
+.memory-lightbox-photo .memory-photo-frame.rotated-photo-frame {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  max-height: none;
+  background: #e9e1df;
+}
+
+.memory-lightbox-photo .memory-photo-frame img {
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+}
+
+.memory-lightbox-photo .memory-photo-frame.rotated-photo-frame img {
+  width: 133.333%;
+  height: 75%;
+  max-width: none;
+  object-fit: contain;
+  object-position: center;
+}
+
+@media (max-width: 700px) {
+  .memory-lightbox-photo {
+    width: min(76vw, 26.25svh, 340px);
+    max-height: none;
+  }
+
+  .memory-lightbox-photo .memory-photo-frame,
+  .memory-lightbox-photo .memory-photo-frame.portrait-photo-frame,
+  .memory-lightbox-photo .memory-photo-frame.rotated-photo-frame {
+    max-height: none;
+    aspect-ratio: 3 / 4;
+  }
+
+  .memory-lightbox-photo .memory-photo-frame img {
+    max-height: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .memory-lightbox-photo {
+    width: min(72vw, 25svh, 300px);
+  }
+}
