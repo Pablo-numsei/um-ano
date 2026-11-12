@@ -2,15 +2,15 @@ import { useEffect, useRef, useState } from 'react'
 import { X, ChevronLeft, ChevronRight, CalendarDays, Camera } from 'lucide-react'
 
 const months = [
-  'Novembro', 'Dezembro', 'Janeiro', 'Fevereiro',
-  'Março', 'Abril', 'Maio', 'Junho',
-  'Julho', 'Agosto', 'Setembro', 'Outubro',
+  'Novembro', 'Outubro', 'Setembro', 'Agosto',
+  'Julho', 'Junho', 'Maio', 'Abril',
+  'Março', 'Fevereiro', 'Janeiro', 'Dezembro',
 ]
 
 const dates = [
-  '15/11/2025', '15/12/2025', '15/01/2026', '15/02/2026',
-  '15/03/2026', '15/04/2026', '15/05/2026', '15/06/2026',
-  '15/07/2026', '15/08/2026', '15/09/2026', '15/10/2026',
+  '15/11/2026', '15/10/2026', '15/09/2026', '15/08/2026',
+  '15/07/2026', '15/06/2026', '15/05/2026', '15/04/2026',
+  '15/03/2026', '15/02/2026', '15/01/2026', '15/12/2025',
 ]
 
 export default function PolaroidLineCarousel({ slides }) {
