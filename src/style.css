@@ -1789,3 +1789,21 @@ body {
     height: 75%;
   }
 }
+
+/* Preenche as molduras por completo: remove as faixas pretas das fotos horizontais. */
+.memory-photo-frame {
+  background: #e9e1df;
+}
+.memory-photo-frame:not(.rotated-photo-frame) img {
+  object-fit: cover;
+  object-position: center;
+}
+.memory-photo-frame.rotated-photo-frame img {
+  left: 50%;
+  top: 50%;
+  width: 133.333%;
+  height: 75%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+}
