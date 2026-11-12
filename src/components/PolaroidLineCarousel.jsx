@@ -54,7 +54,8 @@ export default function PolaroidLineCarousel({ slides }) {
   }
 
   function handlePointerDown(event) {
-    if (event.pointerType === 'mouse' && event.button !== 0) return
+    // Touch uses the browser's native horizontal scrolling; mouse gets click-and-drag.
+    if (event.pointerType !== 'mouse' || event.button !== 0) return
     const rail = railRef.current
     if (!rail) return
     drag.current = {
