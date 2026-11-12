@@ -1761,3 +1761,31 @@ body {
 @media (max-width: 760px) {
   .memory-rail-track { min-height: 510px; }
 }
+
+
+/* Uniformiza a altura da área das fotos no varal, sem cortar imagens horizontais. */
+.memory-rail-track .memory-photo-frame,
+.memory-rail-track .memory-photo-frame.portrait-photo-frame,
+.memory-rail-track .memory-photo-frame.rotated-photo-frame {
+  aspect-ratio: 3 / 4;
+}
+
+.memory-rail-track .memory-photo-frame.rotated-photo-frame img {
+  width: 56.25%;
+  height: 75%;
+  max-width: none;
+  object-fit: contain;
+}
+
+@media (max-width: 430px) {
+  .memory-rail-track .memory-photo-frame,
+  .memory-rail-track .memory-photo-frame.portrait-photo-frame,
+  .memory-rail-track .memory-photo-frame.rotated-photo-frame {
+    aspect-ratio: 3 / 4;
+  }
+
+  .memory-rail-track .memory-photo-frame.rotated-photo-frame img {
+    width: 56.25%;
+    height: 75%;
+  }
+}
