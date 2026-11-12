@@ -1755,3 +1755,9 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .memory-polaroid, .memory-rail-progress i { transition: none; }
 }
+
+
+/* Reserve vertical room for portrait prints on short mobile screens. */
+@media (max-width: 760px) {
+  .memory-rail-track { min-height: 510px; }
+}
